@@ -27,6 +27,7 @@
         type="password"
         class="block w-full rounded border border-gray-300 px-3 py-1.5 text-gray-800 transition duration-500 focus:border-black focus:outline-none"
         placeholder="Password"
+        autocomplete="on"
       />
     </div>
     <ErrorMessage class="text-red-600" name="password" />

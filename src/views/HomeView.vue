@@ -27,10 +27,12 @@
   <!-- Main Content -->
   <section class="container mx-auto">
     <div class="relative flex flex-col rounded border border-gray-200 bg-white">
-      <div class="border-b border-gray-200 px-6 pb-5 pt-6 font-bold">
+      <div
+        class="border-b border-gray-200 px-6 pb-5 pt-6 font-bold"
+        v-icon-secondary="{ icon: 'headphones-alt', right: true }"
+      >
         <span class="card-title">Songs</span>
         <!-- Icon -->
-        <i class="fa fa-headphones-alt float-right text-xl text-green-400"></i>
       </div>
       <!-- Playlist -->
       <ol id="playlist">
@@ -49,66 +51,7 @@
             </span>
           </div>
         </li>
-        <li
-          class="flex cursor-pointer items-center justify-between p-3 pl-6 transition duration-300 hover:bg-gray-50"
-        >
-          <div>
-            <a href="#" class="block font-bold text-gray-600">Song Title</a>
-            <span class="text-sm text-gray-500">Artist Name</span>
-          </div>
 
-          <div class="text-lg text-gray-600">
-            <span class="comments">
-              <i class="fa fa-comments text-gray-600"></i>
-              15
-            </span>
-          </div>
-        </li>
-        <li
-          class="flex cursor-pointer items-center justify-between p-3 pl-6 transition duration-300 hover:bg-gray-50"
-        >
-          <div>
-            <a href="#" class="block font-bold text-gray-600">Song Title</a>
-            <span class="text-sm text-gray-500">Artist Name</span>
-          </div>
-
-          <div class="text-lg text-gray-600">
-            <span class="comments">
-              <i class="fa fa-comments text-gray-600"></i>
-              15
-            </span>
-          </div>
-        </li>
-        <li
-          class="flex cursor-pointer items-center justify-between p-3 pl-6 transition duration-300 hover:bg-gray-50"
-        >
-          <div>
-            <a href="#" class="block font-bold text-gray-600">Song Title</a>
-            <span class="text-sm text-gray-500">Artist Name</span>
-          </div>
-
-          <div class="text-lg text-gray-600">
-            <span class="comments">
-              <i class="fa fa-comments text-gray-600"></i>
-              15
-            </span>
-          </div>
-        </li>
-        <li
-          class="flex cursor-pointer items-center justify-between p-3 pl-6 transition duration-300 hover:bg-gray-50"
-        >
-          <div>
-            <a href="#" class="block font-bold text-gray-600">Song Title</a>
-            <span class="text-sm text-gray-500">Artist Name</span>
-          </div>
-
-          <div class="text-lg text-gray-600">
-            <span class="comments">
-              <i class="fa fa-comments text-gray-600"></i>
-              15
-            </span>
-          </div>
-        </li>
         <li
           class="flex cursor-pointer items-center justify-between p-3 pl-6 transition duration-300 hover:bg-gray-50"
         >
@@ -235,6 +178,28 @@
   </section>
 </template>
 
-<script setup></script>
+<script>
+import IconSecondary from '@/directives/icon-secondary.js'
+import { songsCollection } from '@/includes/firebase'
+import { getDocs } from 'firebase/firestore'
+export default {
+  name: 'HomeView',
+  directives: IconSecondary,
+  data() {
+    return {
+      songs: [],
+    }
+  },
+  async created() {
+    const snapshots = await getDocs(songsCollection)
+    snapshots.forEach((doc) => {
+      this.songs.push({
+        docID: doc.id,
+        ...doc.data(),
+      })
+    })
+  },
+}
+</script>
 
 <style lang="scss" scoped></style>

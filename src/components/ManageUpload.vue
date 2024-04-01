@@ -41,6 +41,8 @@
 </template>
 <script>
 import { storage, auth, songsCollection } from '@/includes/firebase.js'
+import { addDoc, getDoc } from 'firebase/firestore'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 export default {
   name: 'ManageUpload',
   data() {
@@ -62,9 +64,9 @@ export default {
           console.error('Invalid file type')
           return
         }
-        const storageRef = storage.ref() // music-4a433.appspot.com
-        const songsRef = storageRef.child(`songs/${file.name}`) // music-4a433.appspot.com/songs/just-another-song.mp3
-        const task = songsRef.put(file)
+        const songsRef = ref(storage, `songs/${file.name}`) // music-4a433.appspot.com/songs/just-another-song.mp3
+
+        const task = uploadBytesResumable(songsRef, file)
         const uploadIndex =
           this.uploads.push({
             task,
@@ -88,6 +90,7 @@ export default {
             console.error(error)
           },
           async () => {
+            const url = await getDownloadURL(task.snapshot.ref)
             const song = {
               uid: auth.currentUser.uid,
               displayName: auth.currentUser.displayName,
@@ -95,11 +98,11 @@ export default {
               modifiedName: task.snapshot.ref.name,
               genre: '',
               commentCount: 0,
+              url,
             }
-            song.url = await task.snapshot.ref.getDownloadURL()
-            const songRef = await songsCollection.add(song)
-            const songSnapshot = await songRef.get()
-            this.addSong(songSnapshot)
+            const docRef = await addDoc(songsCollection, song)
+            const docSnapshot = await getDoc(docRef)
+            this.addSong(docSnapshot)
             this.uploads[uploadIndex].varient = 'bg-green-400'
             this.uploads[uploadIndex].icon = 'fa fa-check-circle'
             this.uploads[uploadIndex].textClass = 'text-green-400'

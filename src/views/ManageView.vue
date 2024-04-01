@@ -35,7 +35,16 @@
 <script>
 import ManageUpload from '@/components/ManageUpload.vue'
 import CompositionItem from '@/components/CompositionItem.vue'
-import { songsCollection, auth, storage } from '@/includes/firebase'
+import { songsCollection, auth, storage, db } from '@/includes/firebase'
+import {
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from 'firebase/firestore'
+import { deleteObject, ref } from 'firebase/storage'
 export default {
   name: 'ManageView',
   components: {
@@ -49,8 +58,8 @@ export default {
     }
   },
   async created() {
-    const query = songsCollection.where('uid', '==', auth.currentUser.uid)
-    const snapshots = await query.get()
+    const q = query(songsCollection, where('uid', '==', auth.currentUser.uid))
+    const snapshots = await getDocs(q)
     for (const document of snapshots.docs) {
       this.addSong(document)
     }
@@ -60,14 +69,15 @@ export default {
       const song = this.songs[i]
       song.modifiedName = values.modifiedName
       song.genre = values.genre
-      return songsCollection.doc(song.docID).update(values) // return a promise
+      const songRef = doc(db, 'songs', song.docID) // get the document reference
+      return updateDoc(songRef, values)
     },
     async deleteSong(i) {
       const song = this.songs[i]
-      const storageRef = storage.ref()
-      const songRef = storageRef.child(`songs/${song.originalName}`)
-      await songRef.delete()
-      await songsCollection.doc(song.docID).delete()
+      const songRef = doc(db, 'songs', song.docID) // get the document reference
+      await deleteDoc(songRef)
+      const storageRef = ref(storage, `songs/${song.originalName}`) // get the storage reference
+      await deleteObject(storageRef)
       this.songs.splice(i, 1) // remove the song from the array
     },
     addSong(document) {

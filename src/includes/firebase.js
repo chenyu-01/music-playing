@@ -4,14 +4,13 @@ import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore, collection } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyCe4xspiouuwD3oN8spYSnLZGNrEAw1i78',
-  authDomain: 'music-4a433.firebaseapp.com',
-  projectId: 'music-4a433',
-  storageBucket: 'music-4a433.appspot.com',
-  appId: '1:189242395273:web:688ec4d0eef69b76171458',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 }
 
 // Initialize Firebase

@@ -4,8 +4,8 @@
     <section class="relative mb-8 w-full py-14 text-center text-white">
       <div
         class="music-bg absolute inset-0 box-border h-full w-full bg-contain"
-        :style="{ backgroundImage: songHeaderImgUrl }"
-      ></div>
+        style="background-image: url(/assets/img/song-header.png)"
+      />
       <div class="container mx-auto flex items-center">
         <!-- Play/Pause Button -->
         <button
@@ -20,6 +20,7 @@
           <!-- Song Info -->
           <div class="text-3xl font-bold">{{ song.modifiedName }}</div>
           <div>{{ song.genre }}</div>
+          <div class="song-price">{{ $n(1, 'currency', 'cn') }}</div>
         </div>
       </div>
     </section>
@@ -30,7 +31,13 @@
       >
         <div class="border-b border-gray-200 px-6 pb-5 pt-6 font-bold">
           <!-- Comment Count -->
-          <span class="card-title">Comments ({{ song.commentCount }})</span>
+          <span class="card-title">
+            {{
+              $tc('song.commentCount', song.commentCount, {
+                count: song.commentCount,
+              })
+            }}
+          </span>
           <i class="fa fa-comments float-right text-2xl text-green-400"></i>
         </div>
         <div class="p-6">
@@ -93,7 +100,6 @@
 </template>
 <script>
 import { songsCollection, commentsCollection, auth } from '@/includes/firebase'
-import songHeaderImg from '/assets/img/song-header.png'
 import {
   addDoc,
   doc,
@@ -132,9 +138,6 @@ export default {
         }
         return new Date(a.datePosted) - new Date(b.datePosted) // oldest first
       })
-    },
-    songHeaderImgUrl() {
-      return `url(${songHeaderImg})`
     },
   },
   methods: {

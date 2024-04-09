@@ -11,9 +11,9 @@
         Music
       </RouterLink>
 
-      <div>
+      <div class="flex flex-grow items-center">
         <!-- Primary Navigation -->
-        <ul class="mt-1 flex flex-row items-center">
+        <ul class="mt-1 flex flex-row">
           <!-- Navigation Links -->
           <li>
             <RouterLink class="px-2 text-white" :to="{ name: 'about' }"
@@ -38,6 +38,13 @@
             </li>
           </template>
         </ul>
+        <ul class="ml-auto">
+          <li>
+            <a class="px-2 text-white" href="#" @click.prevent="changeLocale">{{
+              currentLocale
+            }}</a>
+          </li>
+        </ul>
       </div>
     </nav>
   </header>
@@ -51,6 +58,9 @@ export default {
   name: 'AppHeader',
   computed: {
     ...mapStores(useModalStore, useUserStore),
+    currentLocale() {
+      return this.$i18n.locale === 'en' ? 'English' : 'Chinese'
+    },
   },
   methods: {
     toggleAuthModal() {
@@ -60,6 +70,13 @@ export default {
       this.userStore.logout()
       if (this.$route.meta.requiresAuth !== true) {
         this.$router.push({ name: 'home' })
+      }
+    },
+    changeLocale() {
+      if (this.currentLocale === 'English') {
+        this.$i18n.locale = 'cn'
+      } else {
+        this.$i18n.locale = 'en'
       }
     },
   },

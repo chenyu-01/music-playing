@@ -1,0 +1,11 @@
+{
+  "home": {
+    "listen": "伟大无需多言"
+  },
+  "song": {
+    "commentCount": "{count} 评论数"
+  },
+  "manage": {
+    "mySongs": "我的歌曲"
+  }
+}

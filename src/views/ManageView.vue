@@ -10,7 +10,7 @@
           class="relative flex flex-col rounded border border-gray-200 bg-white"
         >
           <div class="border-b border-gray-200 px-6 pb-5 pt-6 font-bold">
-            <span class="card-title">My Songs</span>
+            <span class="card-title">{{ $t('manage.mySongs') }}</span>
             <i
               class="fa fa-compact-disc float-right text-2xl text-green-400"
             ></i>

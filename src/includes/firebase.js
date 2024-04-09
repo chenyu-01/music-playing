@@ -24,5 +24,13 @@ const storage = getStorage(app)
 // Access Firestore collections
 const usersCollection = collection(db, 'users')
 const songsCollection = collection(db, 'songs')
+const commentsCollection = collection(db, 'comments')
 
-export { auth, db, usersCollection, storage, songsCollection }
+export {
+  db,
+  auth,
+  storage,
+  usersCollection,
+  songsCollection,
+  commentsCollection,
+}

@@ -7,8 +7,9 @@
         class="mr-4 text-2xl font-bold uppercase text-white"
         :to="{ name: 'home' }"
         exact-active-class="no-active"
-        >Music</RouterLink
       >
+        Music
+      </RouterLink>
 
       <div>
         <!-- Primary Navigation -->

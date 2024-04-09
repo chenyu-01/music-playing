@@ -55,7 +55,6 @@ export default {
   methods: {
     upload(event) {
       this.isDragging = false
-      console.log('Uploading files...')
       const files = event.dataTransfer
         ? [...event.dataTransfer.files]
         : [...event.target.files]

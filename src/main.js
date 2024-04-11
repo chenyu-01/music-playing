@@ -7,9 +7,9 @@ import Icon from '@/directives/icon.js'
 import App from './App.vue'
 import router from './router'
 import i18n from './includes/i18n'
-// import { registerSW } from 'virtual:pwa-register'
+import { registerSW } from 'virtual:pwa-register'
 import VeeValidatePlugin from './includes/validation'
-// registerSW({ immediate: true })
+registerSW({ immediate: true })
 let app
 auth.onAuthStateChanged(() => {
   if (!app) {

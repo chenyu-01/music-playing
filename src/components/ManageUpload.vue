@@ -63,6 +63,17 @@ export default {
           console.error('Invalid file type')
           return
         }
+        if (!navigator.onLine) {
+          this.uploads.push({
+            task: {},
+            currentProgress: 100,
+            name: file.name,
+            varient: 'bg-red-400',
+            icon: 'fas fa-times',
+            textClass: 'text-red-400',
+          })
+          return
+        }
         const songsRef = ref(storage, `songs/${file.name}`) // music-4a433.appspot.com/songs/just-another-song.mp3
 
         const task = uploadBytesResumable(songsRef, file)

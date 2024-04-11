@@ -13,9 +13,6 @@ export default defineConfig(({ mode }) => {
       VueDevTools(),
       VitePWA({
         registerType: 'autoUpdate',
-        devOptions: {
-          enabled: false,
-        },
         manifest: {
           name: 'Music Playing APP',
           theme_color: '#4DBA87',
@@ -27,9 +24,7 @@ export default defineConfig(({ mode }) => {
             },
           ],
         },
-        workbox: {
-          globPatterns: ['**/*.{js,css,html,png,jpg}'],
-        },
+        scope: isProduction ? '/music-playing/' : '/',
       }),
     ],
     resolve: {

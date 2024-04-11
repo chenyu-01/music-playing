@@ -25,6 +25,15 @@ export default defineConfig(({ mode }) => {
           ],
         },
         scope: isProduction ? '/music-playing/' : '/',
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,png,jpg,svg}'],
+          globIgnores: [
+            'node_modules/**/*',
+            'sw.js',
+            'workbox-*.js',
+            '**/pwa-*.png',
+          ],
+        },
       }),
     ],
     resolve: {

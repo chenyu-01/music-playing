@@ -5,43 +5,38 @@ import vue from '@vitejs/plugin-vue'
 import VueDevTools from 'vite-plugin-vue-devtools'
 // import { visualizer } from 'rollup-plugin-visualizer'
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  const isProduction = mode === 'production'
-  return {
-    base: isProduction ? '/music-playing/' : '/',
-    plugins: [
-      vue(),
-      VueDevTools(),
-      VitePWA({
-        registerType: 'autoUpdate',
-        manifest: {
-          name: 'Music Playing APP',
-          theme_color: '#4DBA87',
-          icons: [
-            {
-              src: 'assets/img/pwa-192x192.png',
-              sizes: '192x192',
-              type: 'image/png',
-            },
-          ],
-        },
-        scope: isProduction ? '/music-playing/' : '/',
-        workbox: {
-          globPatterns: ['**/*.{js,css,html,png,jpg,svg}'],
-          globIgnores: [
-            'node_modules/**/*',
-            'sw.js',
-            'workbox-*.js',
-            '**/pwa-*.png',
-          ],
-        },
-      }),
-      // visualizer({ open: true }),
-    ],
-    resolve: {
-      alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url)),
+export default defineConfig({
+  plugins: [
+    vue(),
+    VueDevTools(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      manifest: {
+        name: 'Music Playing APP',
+        theme_color: '#4DBA87',
+        icons: [
+          {
+            src: 'assets/img/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+        ],
       },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,png,jpg,svg}'],
+        globIgnores: [
+          'node_modules/**/*',
+          'sw.js',
+          'workbox-*.js',
+          '**/pwa-*.png',
+        ],
+      },
+    }),
+    // visualizer({ open: true }),
+  ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
-  }
+  },
 })

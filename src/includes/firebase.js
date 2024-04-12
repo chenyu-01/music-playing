@@ -3,7 +3,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import {
-  CACHE_SIZE_UNLIMITED,
   collection,
   initializeFirestore,
   persistentLocalCache,

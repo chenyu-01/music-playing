@@ -182,22 +182,22 @@ export default {
       })
     },
   },
-  async created() {
-    const docSnapshot = await getDoc(
-      doc(songsCollection, this.$route.params.id)
-    )
-    if (!docSnapshot.exists()) {
-      this.$router.push({ name: 'home' })
-      return
-    }
-    this.song = docSnapshot.data()
-    this.getComments()
-    const { sort } = this.$route.query
-    if (sort === 'oldest' || sort === 'latest') {
-      this.sortingOrder = sort
-    } else {
-      this.sortingOrder = 'latest'
-    }
+  async beforeRouteEnter(to, from, next) {
+    const docSnapshot = await getDoc(doc(songsCollection, to.params.id))
+    next((vm) => {
+      if (!docSnapshot.exists()) {
+        vm.$router.push({ name: 'home' })
+        return
+      }
+      vm.song = docSnapshot.data()
+      vm.getComments()
+      const { sort } = vm.$route.query
+      if (sort === 'oldest' || sort === 'latest') {
+        vm.sortingOrder = sort
+      } else {
+        vm.sortingOrder = 'latest'
+      }
+    })
   },
   watch: {
     sortingOrder(newVal) {
